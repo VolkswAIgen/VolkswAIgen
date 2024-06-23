@@ -19,33 +19,35 @@ declare(strict_types=1);
 
 namespace VolkswAIgen\VolkswAIgen;
 
-final class Main
+use DateInterval;
+use Psr\Cache\CacheItemPoolInterface;
+
+final class ListFetcher
 {
 	public function __construct(
-		private readonly ListFetcher $listFetcher
+		private readonly CacheItemPoolInterface $cache,
+		private readonly string $listUrl = 'https://api.volkswaigen.org/list',
 	) {}
 
-	public function isAiBot(string $userAgent, string $ipAddress): bool
+	/**
+	 * @return string[]
+	 * @throws \Psr\Cache\InvalidArgumentException
+	 */
+	public function fetch(): array
 	{
-		/** @var array{
-		 *     value: string,
-		 *     type: 'user-agent'|'ip-address',
-		 * }[] $list
-		 */
-		$list = $this->listFetcher->fetch();
-		foreach ($list as $item) {
-			$matcher = match ($item['type']) {
-				'ip-address' => $ipAddress,
-				'user-agent' => $userAgent,
-			};
-			if (true === preg_match(
-					'/' . preg_quote($list['value'], '/') . '/',
-					$matcher
-				)) {
-				return true;
-			}
+		$cache = $this->cache->getItem('volkswAIgen.list');
+		/** @var string[] $cachedList */
+		$cachedList = $cache->get();
+		if ($cachedList === null) {
+			//$cachedList = json_decode(file_get_contents($this->listUrl));
+			$cachedList = [[
+				'type' => 'user-agent' ,
+				'value' => 'ChatGPT'
+			]];
+			$cache->set($cachedList);
+			$cache->expiresAfter(new DateInterval('P1D'));
 		}
 
-		return false;
+		return $cachedList;
 	}
 }

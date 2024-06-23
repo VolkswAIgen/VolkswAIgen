@@ -3,16 +3,17 @@
 	"description": "Feed AI bots with random data instead of your actual site data",
 	"autoload": {
 		"psr-4": {
-			"\\VolkswAIgen\\VolkswAIgen": "src/"
+			"VolkswAIgen\\VolkswAIgen\\": "src/"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"\\VolkswAIgen\\VolkswAIgenTest": "tests/"
+			"VolkswAIgen\\VolkswAIgenTest\\": "tests/"
 		}
 	},
 	"readme": "README.md",
 	"require": {
-		"php": "^8.2"
+		"php": "^8.2",
+		"psr/cache": "^3.0"
 	}
 }
