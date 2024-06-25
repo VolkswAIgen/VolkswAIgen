@@ -19,6 +19,11 @@ declare(strict_types=1);
 
 namespace VolkswAIgen\VolkswAIgen;
 
+use VolkswAIgen\VolkswAIgen\Matcher\IpAddress;
+use VolkswAIgen\VolkswAIgen\Matcher\UserAgent;
+use VolkswAIgen\VolkswAIgen\Value\IpRange;
+use VolkswAIgen\VolkswAIgen\Value\RegEx;
+
 final class Main
 {
 	public function __construct(
@@ -35,13 +40,14 @@ final class Main
 		$list = $this->listFetcher->fetch();
 		foreach ($list as $item) {
 			$matcher = match ($item['type']) {
+				'ip-address' => new IpAddress(new IpRange($item['value'])),
+				'user-agent' => new UserAgent(new RegEx($item['value'])),
+			};
+			$value = match($item['type']){
 				'ip-address' => $ipAddress,
 				'user-agent' => $userAgent,
 			};
-			if (true === preg_match(
-					'/' . preg_quote($list['value'], '/') . '/',
-					$matcher
-				)) {
+			if ($matcher->match($value) === true) {
 				return true;
 			}
 		}

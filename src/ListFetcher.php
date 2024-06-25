@@ -39,11 +39,7 @@ final class ListFetcher
 		/** @var string[] $cachedList */
 		$cachedList = $cache->get();
 		if ($cachedList === null) {
-			//$cachedList = json_decode(file_get_contents($this->listUrl));
-			$cachedList = [[
-				'type' => 'user-agent' ,
-				'value' => 'ChatGPT'
-			]];
+			$cachedList = json_decode(file_get_contents($this->listUrl));
 			$cache->set($cachedList);
 			$cache->expiresAfter(new DateInterval('P1D'));
 		}
