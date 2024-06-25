@@ -1,6 +1,8 @@
 {
 	"name": "volkswaigen/volkswaigen",
 	"description": "Feed AI bots with random data instead of your actual site data",
+	"keywords": ["AI","Bot", "Privacy", "copyright"],
+	"license": ["GPL-3.0-or-later"],
 	"autoload": {
 		"psr-4": {
 			"VolkswAIgen\\VolkswAIgen\\": "src/"
