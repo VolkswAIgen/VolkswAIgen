@@ -45,7 +45,7 @@ final class ListFetcher
          *      type: 'ip-address'|'user-agent',
          *      value: string
          * }[]|null $cachedList
-         */
+		 */
         $cachedList = $cache->get();
         if ($cachedList === null) {
             /** @var array{
