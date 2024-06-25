@@ -26,33 +26,33 @@ use VolkswAIgen\VolkswAIgen\Value\RegEx;
 
 final class Main
 {
-    public function __construct(
-        private readonly ListFetcher $listFetcher
-    ) {
-    }
+	public function __construct(
+		private readonly ListFetcher $listFetcher
+	) {
+	}
 
-    public function isAiBot(string $userAgent, string $ipAddress): bool
-    {
-        /** @var array{
-         *     value: string,
-         *     type: 'user-agent'|'ip-address',
-         * }[] $list
-         */
-        $list = $this->listFetcher->fetch();
-        foreach ($list as $item) {
-            $matcher = match ($item['type']) {
-                'ip-address' => new IpAddress(new IpRange($item['value'])),
-                'user-agent' => new UserAgent(new RegEx($item['value'])),
-            };
-            $value = match ($item['type']) {
-                'ip-address' => $ipAddress,
-                'user-agent' => $userAgent,
-            };
-            if ($matcher->match($value) === true) {
-                return true;
-            }
-        }
+	public function isAiBot(string $userAgent, string $ipAddress): bool
+	{
+		/** @var array{
+		 *     value: string,
+		 *     type: 'user-agent'|'ip-address',
+		 * }[] $list
+		 */
+		$list = $this->listFetcher->fetch();
+		foreach ($list as $item) {
+			$matcher = match ($item['type']) {
+				'ip-address' => new IpAddress(new IpRange($item['value'])),
+				'user-agent' => new UserAgent(new RegEx($item['value'])),
+			};
+			$value = match ($item['type']) {
+				'ip-address' => $ipAddress,
+				'user-agent' => $userAgent,
+			};
+			if ($matcher->match($value) === true) {
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
