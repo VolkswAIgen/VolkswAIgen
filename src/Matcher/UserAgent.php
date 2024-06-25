@@ -9,10 +9,12 @@ use VolkswAIgen\VolkswAIgen\Value\RegEx;
 
 final class UserAgent implements Matcher
 {
-	public function __construct(private RegEx $userAgent) {}
+    public function __construct(private RegEx $userAgent)
+    {
+    }
 
-	public function match($value): bool
-	{
-		return $this->userAgent->matches($value);
-	}
+    public function match(string $value): bool
+    {
+        return $this->userAgent->matches($value);
+    }
 }

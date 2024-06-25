@@ -10,12 +10,13 @@ use VolkswAIgen\VolkswAIgen\Value\IpRange;
 final class IpAddress implements Matcher
 {
 
-	public function __construct(
-		private readonly IpRange $ipRange
-	) {}
+    public function __construct(
+        private readonly IpRange $ipRange
+    ) {
+    }
 
-	public function match($value): bool
-	{
-		return $this->ipRange->contains($value);
-	}
+    public function match(string $value): bool
+    {
+        return $this->ipRange->contains($value);
+    }
 }

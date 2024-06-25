@@ -18,6 +18,9 @@ class IpRangeTest extends TestCase
 		self::assertSame($contained, $range->contains($ip));
 	}
 
+	/**
+	 * @return array{string, string, bool}[]
+	 */
 	public static function provideContainsWorks(): array
 	{
 		return [

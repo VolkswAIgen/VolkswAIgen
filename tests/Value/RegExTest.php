@@ -18,6 +18,9 @@ class RegExTest extends TestCase
 		self::assertSame($contained, $regEx->matches($match));
 	}
 
+	/**
+	 * @return array{string, string, bool}[]
+	 */
 	public static function provideContainsWorks(): array
 	{
 		return [

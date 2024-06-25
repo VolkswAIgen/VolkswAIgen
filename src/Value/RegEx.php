@@ -6,18 +6,18 @@ namespace VolkswAIgen\VolkswAIgen\Value;
 
 final class RegEx
 {
-	public function __construct(private string $pattern) {}
+    public function __construct(private string $pattern)
+    {
+    }
 
-	public function matches(string $match): bool
-	{
+    public function matches(string $match): bool
+    {
 
-		$result = preg_match(
-			'/' . preg_quote($this->pattern, '/') . '/i',
-			$match
-		);
+        $result = preg_match(
+            '/' . preg_quote($this->pattern, '/') . '/i',
+            $match
+        );
 
-		//var_Dump($result);
-
-		return (bool)$result;
-	}
+        return (bool)$result;
+    }
 }

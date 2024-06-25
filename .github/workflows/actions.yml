@@ -1,0 +1,55 @@
+name: Build
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: phive
+      - name: Download codesniffer
+        run: phive --no-progress install --trust-gpg-keys A978220305CD5C32 phpcs
+      - name: Install
+        run: composer install
+      - name: check
+        run: ./tools/phpcs
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          tools: phive
+          coverage: xdebug
+      - name: Download PHPUnit
+        run: phive --no-progress install --trust-gpg-keys 4AA394086372C20A phpunit
+      - name: Install
+        run: composer install
+      - name: test
+        run: composer test
+  analyze:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          tools: phive
+      - name: Install
+        run: composer install
+      - name: Download phpstan
+        run: phive --no-progress install --trust-gpg-keys 51C67305FFC2E5C0,4AA394086372C20A phpstan phpunit
+      - name: analyze
+        run: ./tools/phpstan

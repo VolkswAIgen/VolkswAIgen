@@ -24,26 +24,40 @@ use Psr\Cache\CacheItemPoolInterface;
 
 final class ListFetcher
 {
-	public function __construct(
-		private readonly CacheItemPoolInterface $cache,
-		private readonly string $listUrl = 'https://api.volkswaigen.org/list',
-	) {}
+    public function __construct(
+        private readonly CacheItemPoolInterface $cache,
+        private readonly string $listUrl = 'https://api.volkswaigen.org/list',
+    ) {
+    }
 
-	/**
-	 * @return string[]
-	 * @throws \Psr\Cache\InvalidArgumentException
-	 */
-	public function fetch(): array
-	{
-		$cache = $this->cache->getItem('volkswAIgen.list');
-		/** @var string[] $cachedList */
-		$cachedList = $cache->get();
-		if ($cachedList === null) {
-			$cachedList = json_decode(file_get_contents($this->listUrl));
-			$cache->set($cachedList);
-			$cache->expiresAfter(new DateInterval('P1D'));
-		}
+    /**
+     * @return array{
+     *     type: 'ip-address'|'user-agent',
+     *     value: string
+     * }[] $cachedList
+     *
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function fetch(): array
+    {
+        $cache = $this->cache->getItem('volkswAIgen.list');
+        /** @var array{
+         *      type: 'ip-address'|'user-agent',
+         *      value: string
+         * }[]|null $cachedList
+         */
+        $cachedList = $cache->get();
+        if ($cachedList === null) {
+            /** @var array{
+             *      type: 'ip-address'|'user-agent',
+             *      value: string
+             * }[] $cachedList
+             */
+            $cachedList = json_decode((string) file_get_contents($this->listUrl));
+            $cache->set($cachedList);
+            $cache->expiresAfter(new DateInterval('P1D'));
+        }
 
-		return $cachedList;
-	}
+        return $cachedList;
+    }
 }

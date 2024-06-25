@@ -71,6 +71,9 @@ class MainTest extends TestCase
 				};
 			}
 
+			/**
+			 * @return CacheItemInterface[] $keys
+			 */
 			public function getItems(array $keys = []): iterable
 			{
 				throw new RuntimeException('not implemented');
@@ -118,6 +121,9 @@ class MainTest extends TestCase
 		self::assertSame($result, $main->isAiBot($userAgent, $ipAddress));
 	}
 
+	/**
+	 * @return array{string, string, bool}[]
+	 */
 	public static function mainProvider(): array
 	{
 		return [
