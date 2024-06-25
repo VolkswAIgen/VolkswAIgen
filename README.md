@@ -48,3 +48,26 @@ list independentyl from this lib.
 
 The results will be cached for 24 hours usually so that there will
 not be too many requests for that external resources.
+
+## Installation
+
+VolkswAIgen is best installed via composer
+
+```bash
+composer require volkswaigen/volkswaigen
+```
+
+## Usage
+
+```php
+
+$volkswaigen = new \VolkswAIgen\VolkswAIgen\Main(
+	new \VolkswAIgen\VolkswAIgen\ListFetcher(
+		$psr6CachePoolImplementation
+	)
+);
+
+if ($volkswaigen->isAiBot($userAgent, $ipAddress)) {
+	// Do whatever you want to do with a request from an AI bot
+}
+```
