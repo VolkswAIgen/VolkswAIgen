@@ -19,7 +19,7 @@ So if one wants to at least make it harder for AI bots to grab
 your content one has to implement some other measures.
 
 One is to try to identify a bot when they visit your application
-by their user-agend and/or their IP-address and then feed them
+by their user-agent and/or their IP-address and then feed them
 "something else"
 
 **This will not prohibit AI bots from visit your site!**
