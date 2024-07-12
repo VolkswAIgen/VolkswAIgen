@@ -53,7 +53,7 @@ final class ListFetcher
 			 *      value: string
 			 * }[] $cachedList
 			 */
-			$cachedList = json_decode((string) file_get_contents($this->listUrl));
+			$cachedList = json_decode((string) file_get_contents($this->listUrl), true);
 			$cache->set($cachedList);
 			$cache->expiresAfter(new DateInterval('P1D'));
 		}
